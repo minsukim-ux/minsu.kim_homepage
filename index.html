@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>민수의 홈페이지</title>
+  <style>
+    html, body { height: 100%; margin: 0; }
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+      background: #f7f8fa;
+      color: #1f2328;
+    }
+    h1 { font-size: 2rem; font-weight: 700; margin: 0; }
+    p { font-size: 1.1rem; color: #57606a; margin: 0; }
+  </style>
+</head>
+<body>
+  <h1>안녕하세요, 민수입니다</h1>
+  <p id="today"></p>
+  <script>
+    const now = new Date();
+    document.getElementById("today").textContent =
+      now.toLocaleDateString("ko-KR", { year: "numeric", month: "long", day: "numeric", weekday: "long" });
+  </script>
+</body>
+</html>
