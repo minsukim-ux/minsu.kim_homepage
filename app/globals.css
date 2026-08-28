@@ -1,0 +1,251 @@
+@import 'tailwindcss';
+
+/* ------------------------------------------------------------------ *
+ * 폰트
+ * 실제 파일은 /public/assets/font 에 넣는다 (ASSETS.md 참조).
+ * 파일이 없으면 local() → 시스템 폰트 스택으로 자연 폴백된다.
+ * ------------------------------------------------------------------ */
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src:
+    local('Pretendard Variable'),
+    url('/assets/font/PretendardVariable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Inter Variable';
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  src:
+    local('Inter Variable'),
+    local('Inter'),
+    url('/assets/font/InterVariable.woff2') format('woff2');
+}
+
+/* ------------------------------------------------------------------ *
+ * 디자인 토큰
+ * --sb-primary ~ --sb-border 는 브랜드 공식 팔레트. 변경 금지.
+ * --sb-void ~ --sb-glow 는 이 사이트 전용 시네마틱 확장.
+ * ------------------------------------------------------------------ */
+:root {
+  --sb-primary: #00614e;
+  --sb-primary-dark: #004a3b;
+  --sb-primary-light: #007a62;
+  --sb-accent: #4caf82;
+  --sb-accent-light: #a8d5c2;
+  --sb-bg: #f7faf8;
+  --sb-text: #1a2e27;
+  --sb-text-sub: #5c7268;
+  --sb-border: #d1e8df;
+
+  --sb-void: #060b09;
+  --sb-ink: #0e1815;
+  --sb-fog: #8fa79c;
+  --sb-glow: #7fffb0;
+
+  /* 스크롤에 따라 JS가 연속 보간하는 런타임 변수 (스텝 전환 금지) */
+  --sb-page-bg: var(--sb-void);
+  --sb-page-fg: var(--sb-bg);
+  --sb-page-fg-sub: var(--sb-fog);
+
+  /* 스크롤 속도(0~1). 마퀴 속도·기울기, 사운드 변조가 참조한다. */
+  --sb-scroll-velocity: 0;
+
+  --sb-font-kr: 'Pretendard Variable', 'Apple SD Gothic Neo', 'Malgun Gothic',
+    system-ui, sans-serif;
+  --sb-font-en: 'Inter Variable', 'Pretendard Variable', system-ui, sans-serif;
+  --sb-font-mono: ui-monospace, 'SFMono-Regular', 'Roboto Mono', monospace;
+}
+
+@theme inline {
+  --color-sb-primary: var(--sb-primary);
+  --color-sb-primary-dark: var(--sb-primary-dark);
+  --color-sb-primary-light: var(--sb-primary-light);
+  --color-sb-accent: var(--sb-accent);
+  --color-sb-accent-light: var(--sb-accent-light);
+  --color-sb-bg: var(--sb-bg);
+  --color-sb-text: var(--sb-text);
+  --color-sb-text-sub: var(--sb-text-sub);
+  --color-sb-border: var(--sb-border);
+  --color-sb-void: var(--sb-void);
+  --color-sb-ink: var(--sb-ink);
+  --color-sb-fog: var(--sb-fog);
+  --color-sb-glow: var(--sb-glow);
+
+  --color-page-bg: var(--sb-page-bg);
+  --color-page-fg: var(--sb-page-fg);
+  --color-page-fg-sub: var(--sb-page-fg-sub);
+
+  --font-kr: var(--sb-font-kr);
+  --font-en: var(--sb-font-en);
+  --font-mono: var(--sb-font-mono);
+}
+
+/* ------------------------------------------------------------------ *
+ * 베이스
+ * ------------------------------------------------------------------ */
+@layer base {
+  html {
+    /* Lenis 가 스크롤을 구동한다. 네이티브 smooth 와 충돌 방지. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--sb-page-bg);
+    color: var(--sb-page-fg);
+    font-family: var(--sb-font-kr);
+    font-size: 1rem;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* 커스텀 커서가 있어도 네이티브 focus ring 은 제거하지 않는다. */
+  :focus-visible {
+    outline: 2px solid var(--sb-glow);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--sb-primary);
+    color: #fff;
+  }
+
+  /* 키보드 사용자를 위한 본문 바로가기 */
+  .sb-skip-link {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 200;
+    translate: 0 -200%;
+    padding: 0.625rem 1rem;
+    border-radius: 999px;
+    background: var(--sb-primary);
+    color: #fff;
+    font-size: 0.875rem;
+    transition: translate 0.25s ease;
+  }
+  .sb-skip-link:focus-visible {
+    translate: 0 0;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * 타이포그래피 유틸
+ * ------------------------------------------------------------------ */
+@utility sb-display {
+  font-size: clamp(3rem, 11vw, 11rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  text-wrap: balance;
+  /* 한글은 어절 단위로 끊는다. 단어 중간 줄바꿈 방지. */
+  word-break: keep-all;
+}
+
+@utility sb-headline {
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-wrap: balance;
+  word-break: keep-all;
+}
+
+@utility sb-body {
+  font-size: clamp(1rem, 0.4vw + 0.95rem, 1.125rem);
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+@utility sb-eyebrow {
+  font-family: var(--sb-font-en);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+@utility sb-num {
+  font-family: var(--sb-font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* SplitText 로 분해된 글자/단어의 초기 상태. FOUC 시 통짜 노출을 막는다. */
+@utility sb-split-mask {
+  overflow: clip;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* ------------------------------------------------------------------ *
+ * 플레이스홀더 (에셋 부재 시)
+ * ------------------------------------------------------------------ */
+@keyframes sb-placeholder-drift {
+  0% {
+    transform: translate3d(-8%, -6%, 0) scale(1.35) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(6%, 5%, 0) scale(1.5) rotate(8deg);
+  }
+  100% {
+    transform: translate3d(-8%, -6%, 0) scale(1.35) rotate(0deg);
+  }
+}
+
+@keyframes sb-marquee-x {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.sb-placeholder-video::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(
+      42% 55% at 22% 28%,
+      color-mix(in oklab, var(--sb-primary-light) 85%, transparent) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      48% 60% at 78% 72%,
+      color-mix(in oklab, var(--sb-accent) 65%, transparent) 0%,
+      transparent 66%
+    ),
+    linear-gradient(148deg, var(--sb-primary-dark) 0%, var(--sb-void) 78%);
+  animation: sb-placeholder-drift 24s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ------------------------------------------------------------------ *
+ * reduced motion
+ * scrub 애니메이션 고정·자동재생 정지·파티클 off 는 JS 에서 처리하고,
+ * 여기서는 CSS 로 구동되는 모션만 정지한다.
+ * ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .sb-placeholder-video::before {
+    animation: none;
+    transform: translate3d(0, 0, 0) scale(1.05);
+  }
+}
