@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { ASSETS, PRODUCT_SLOT_COUNT } from '@/lib/assets'
+import { PRODUCTS } from '@/lib/productData'
 import { ImageAsset } from '@/components/ui/ImageAsset'
 import { SubPageShell } from '@/components/core/SubPageShell'
 
@@ -15,25 +15,31 @@ export default function ProductsPage() {
       labelEn="PRODUCTS"
       label="제품 아카이브"
       heading="제품 아카이브"
-      lead="제품명·구성·표시사항은 확정 후 연결됩니다. 현재는 촬영이 필요한 슬롯만 표시합니다."
+      lead="제품명·코드·라인은 사내 제품 마스터 기준입니다. 영양성분·가격·판매 채널은 확인 후 연결됩니다."
     >
-      <ul className="grid grid-cols-2 gap-6 md:grid-cols-3">
-        {Array.from({ length: PRODUCT_SLOT_COUNT }, (_, i) => i + 1).map(
-          (slot) => (
-            <li key={slot}>
-              <ImageAsset
-                src={ASSETS.product.still(slot)}
-                alt=""
-                sizes="(min-width: 768px) 30vw, 50vw"
-                className="aspect-4/5 rounded-sm bg-sb-border/40"
-              />
-              <p className="sb-eyebrow mt-2 text-page-fg-sub">
-                <span className="sb-num">{String(slot).padStart(2, '0')}</span>
-                <span className="px-2 opacity-40">/</span>제품명 확정 전
-              </p>
-            </li>
-          ),
-        )}
+      <ul className="grid grid-cols-2 gap-8 md:grid-cols-3">
+        {PRODUCTS.map((product, i) => (
+          <li key={`${product.code ?? 'shot'}-${i}`}>
+            <ImageAsset
+              src={product.image}
+              alt={product.name}
+              sizes="(min-width: 768px) 30vw, 50vw"
+              className="aspect-4/5"
+              imageClassName="object-contain"
+              showSpec={false}
+            />
+            <p className="sb-eyebrow mt-3 flex flex-wrap items-baseline gap-x-2 text-page-fg-sub">
+              {product.code ? <span className="sb-num">{product.code}</span> : null}
+              <span className="font-kr text-sm tracking-normal text-page-fg">
+                {product.name}
+              </span>
+            </p>
+            <p className="sb-eyebrow text-page-fg-sub/80">
+              {product.line}
+              {product.weight ? ` · ${product.weight}` : ''}
+            </p>
+          </li>
+        ))}
       </ul>
     </SubPageShell>
   )

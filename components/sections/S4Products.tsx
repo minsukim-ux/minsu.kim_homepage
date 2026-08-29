@@ -1,25 +1,25 @@
-import { PRODUCT_SLOT_COUNT, ASSETS } from '@/lib/assets'
+import { PRODUCTS, PRODUCT_LINES } from '@/lib/productData'
 import { ImageAsset } from '@/components/ui/ImageAsset'
 import { SectionShell, SectionMarker } from './SectionShell'
 
 /**
  * S4 PRODUCTS
  *
- * Phase 1: 불규칙 배치 그리드 + 이미지 슬롯.
- * Phase 5: 3단 패럴랙스, 호버 루프 영상, FLIP 전체화면 확장.
+ * 제품명·코드·라인은 사내 제품 마스터 기준(lib/productData.ts).
+ * 제품컷은 사내 원본 누끼를 웹용으로 최적화해 /public/assets/product 에 둔다.
  *
- * ⚠️ 제품명·가격·영양성분은 확정 전까지 넣지 않는다.
- *    슬롯 번호만으로 레이아웃을 검증한다.
+ * Phase 5: 3단 패럴랙스, 자동 틸트, FLIP 전체화면 확장.
  */
-
-/** 패럴랙스 레이어(1~3). 스크롤 시 서로 다른 속도로 움직인다. */
-const SLOT_LAYOUT = [
-  { layer: 1, span: 'md:col-span-5 md:mt-0' },
-  { layer: 3, span: 'md:col-span-4 md:col-start-8 md:mt-24' },
-  { layer: 2, span: 'md:col-span-4 md:col-start-2 md:mt-16' },
-  { layer: 1, span: 'md:col-span-5 md:col-start-7 md:mt-0' },
-  { layer: 3, span: 'md:col-span-3 md:col-start-1 md:mt-20' },
-  { layer: 2, span: 'md:col-span-5 md:col-start-6 md:mt-8' },
+const LAYOUT = [
+  'md:col-span-4',
+  'md:col-span-4 md:col-start-9 md:mt-24',
+  'md:col-span-4 md:col-start-3 md:mt-16',
+  'md:col-span-4 md:col-start-8',
+  'md:col-span-3 md:col-start-1 md:mt-20',
+  'md:col-span-4 md:col-start-6 md:mt-8',
+  'md:col-span-4 md:col-start-2 md:mt-10',
+  'md:col-span-4 md:col-start-9 md:mt-20',
+  'md:col-span-5 md:col-start-5 md:mt-12',
 ] as const
 
 export function S4Products() {
@@ -40,43 +40,65 @@ export function S4Products() {
 
       <ul
         data-product-grid
-        className="mt-16 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-12 md:gap-x-6 md:gap-y-20"
+        className="mt-16 grid grid-cols-1 gap-x-6 gap-y-12 sm:grid-cols-2 md:grid-cols-12 md:gap-y-20"
       >
-        {Array.from({ length: PRODUCT_SLOT_COUNT }, (_, i) => i + 1).map(
-          (slot) => {
-            const layout = SLOT_LAYOUT[slot - 1]
-            return (
-              <li
-                key={slot}
-                data-product-slot={slot}
-                data-parallax-layer={layout?.layer ?? 2}
-                className={layout?.span ?? ''}
-              >
-                <article className="group flex flex-col gap-3">
-                  <ImageAsset
-                    src={ASSETS.product.still(slot)}
-                    alt=""
-                    sizes="(min-width: 768px) 40vw, 100vw"
-                    className="aspect-4/5 rounded-sm bg-sb-border/40"
-                  />
-                  <p className="sb-eyebrow text-page-fg-sub">
-                    <span className="sb-num">
-                      {String(slot).padStart(2, '0')}
-                    </span>
-                    <span className="px-2 opacity-40">/</span>
-                    제품명 확정 전
-                  </p>
-                </article>
-              </li>
-            )
-          },
-        )}
+        {PRODUCTS.map((product, i) => (
+          <li
+            key={`${product.code ?? 'shot'}-${i}`}
+            data-product-slot={i + 1}
+            data-parallax-layer={(i % 3) + 1}
+            className={LAYOUT[i] ?? ''}
+          >
+            <article className="flex flex-col gap-3">
+              <ImageAsset
+                src={product.image}
+                alt={product.name}
+                sizes="(min-width: 768px) 34vw, 100vw"
+                className="aspect-4/5 max-h-[52vh]"
+                imageClassName="object-contain drop-shadow-[0_22px_30px_rgba(0,0,0,0.28)]"
+                showSpec={false}
+              />
+              <p className="sb-eyebrow flex flex-wrap items-baseline gap-x-3 text-page-fg-sub">
+                {product.code ? <span className="sb-num">{product.code}</span> : null}
+                <span className="font-kr text-sm tracking-normal text-page-fg">
+                  {product.name}
+                </span>
+                <span className="opacity-70">
+                  {product.line}
+                  {product.weight ? ` · ${product.weight}` : ''}
+                </span>
+              </p>
+            </article>
+          </li>
+        ))}
       </ul>
 
-      <p className="sb-body mt-16 max-w-[46ch] text-page-fg-sub">
-        구매는 외부 판매 채널에서 진행됩니다. 판매 채널 링크는 확정 후
-        연결됩니다.
-      </p>
+      <div className="mt-24 flex flex-col gap-4">
+        <p className="sb-eyebrow text-page-fg-sub">PRODUCT LINES · 브랜드 라인</p>
+        <p className="sb-headline max-w-[20ch] font-kr text-page-fg">
+          밸런스를 라인으로 나눈다
+        </p>
+        <ul className="mt-6 flex flex-col">
+          {PRODUCT_LINES.map((line) => (
+            <li
+              key={line.en}
+              className="flex items-baseline gap-4 border-b border-sb-border py-3"
+            >
+              <span className="font-kr text-lg font-bold text-page-fg sm:text-2xl">
+                {line.name}
+              </span>
+              <span className="sb-eyebrow text-page-fg-sub">{line.en}</span>
+              <span className="sb-num ml-auto text-sm text-page-fg-sub">
+                {line.count}
+              </span>
+            </li>
+          ))}
+        </ul>
+        <p className="sb-body mt-6 max-w-[46ch] text-page-fg-sub">
+          운영중 품목 수 기준입니다. 구매는 외부 판매 채널에서 진행되며, 채널
+          링크는 확정 후 연결됩니다.
+        </p>
+      </div>
     </SectionShell>
   )
 }

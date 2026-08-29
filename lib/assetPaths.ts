@@ -50,8 +50,11 @@ export const ASSETS = {
     inter: '/assets/font/InterVariable.woff2',
   },
   logo: {
-    /** path 병합된 단일 벡터. 로더가 좌표를 샘플링한다. */
+    /** 브랜드 워드마크 벡터 (사내 원본 .ai 에서 추출). */
     wordmark: '/assets/logo/logo.svg',
+    /** 로더가 알파를 샘플링해 파티클 목표점을 만든다. */
+    wordmarkWhite: '/assets/logo/logo-white.webp',
+    wordmarkGreen: '/assets/logo/logo-green.webp',
     mark: '/assets/logo/logo-mark.svg',
   },
   video: {
@@ -66,8 +69,8 @@ export const ASSETS = {
     productLoop: (n: number) => `/assets/video/product/loop_${pad2(n)}.mp4`,
   },
   product: {
-    /** S4 카드 정지 이미지. n = 1..6 */
-    still: (n: number) => `/assets/product/product_${pad2(n)}.jpg`,
+    /** S4 카드 제품컷(누끼). n = 1..PRODUCT_SLOT_COUNT */
+    still: (n: number) => `/assets/product/product_${pad2(n)}.webp`,
   },
   cutout: {
     /** 재료 누끼. slug 는 CUTOUT_INGREDIENTS 참조. */
@@ -94,7 +97,7 @@ export const ASSETS = {
 
 /** S2 스테이션 수. processData 와 반드시 일치. */
 export const PROCESS_STATION_COUNT = 12
-/** S4 제품 카드 수. 실제 라인업 확정 시 조정. */
-export const PRODUCT_SLOT_COUNT = 6
+/** S4 제품 카드 수. lib/productData.ts 의 항목 수와 일치. */
+export const PRODUCT_SLOT_COUNT = 9
 /** S9 시퀀스 프레임 수. */
 export const PACK_SEQUENCE_FRAMES = 60

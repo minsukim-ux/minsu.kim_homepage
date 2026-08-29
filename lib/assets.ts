@@ -46,11 +46,20 @@ export const ASSET_MANIFEST: readonly AssetSpec[] = [
   {
     path: ASSETS.logo.wordmark,
     kind: 'vector',
-    dimensions: 'SVG, viewBox 고정, 모든 path 를 하나로 병합(union)',
+    dimensions: 'SVG (사내 원본 .ai 에서 추출)',
     maxSize: '60 KB',
-    usedIn: ['Loader(로고 모핑)', '헤더', 'S9 FOOTER'],
+    usedIn: ['헤더', 'S9 FOOTER'],
     replaceable: true,
-    note: '로더가 path 를 좌표 샘플링한다. stroke·text 요소 없이 fill path 만. 없으면 "SWEET BALANCE" 워드마크를 벡터화해 동일 연출.',
+    note: '브랜드 워드마크. 반영 완료.',
+  },
+  {
+    path: ASSETS.logo.wordmarkWhite,
+    kind: 'image',
+    dimensions: '851×646 WebP, 알파 = 로고 실루엣',
+    maxSize: '30 KB',
+    usedIn: ['Loader(파티클이 알파를 샘플링해 로고로 재배열)', '헤더·푸터 마스크'],
+    replaceable: false,
+    note: '로고 실루엣을 마스크로 써서 배경색 보간에 따라 색이 따라오게 한다. 반영 완료.',
   },
   {
     path: ASSETS.logo.mark,
@@ -108,11 +117,11 @@ export const ASSET_MANIFEST: readonly AssetSpec[] = [
   ...range(PRODUCT_SLOT_COUNT).map<AssetSpec>((n) => ({
     path: ASSETS.product.still(n),
     kind: 'product',
-    dimensions: '1600×2000 (4:5), JPG 원본 → AVIF/WebP 자동 변환',
-    maxSize: '400 KB (원본)',
+    dimensions: '누끼 PNG 원본 → 긴 변 760px WebP(알파 유지)로 최적화',
+    maxSize: '90 KB',
     usedIn: [`S4 PRODUCTS 카드 ${pad2(n)}`, '/products'],
     replaceable: false,
-    note: '동일 조명·동일 앵글로 촬영해 카드 간 톤이 튀지 않게.',
+    note: '사내 제품컷 원본에서 변환해 반영 완료. 더 높은 해상도가 필요하면 원본 누끼로 교체.',
   })),
   ...range(PRODUCT_SLOT_COUNT).map<AssetSpec>((n) => ({
     path: ASSETS.video.productLoop(n),
