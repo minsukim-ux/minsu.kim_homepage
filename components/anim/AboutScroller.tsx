@@ -3,7 +3,7 @@
 import { useRef } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap, ScrollTrigger } from '@/lib/gsap'
-import { prefersReduced } from '@/lib/motion'
+import { mixColor, prefersReduced, resolveColor } from '@/lib/motion'
 
 /**
  * S2 ABOUT — 핀 + 가로 스크롤 아카이브.
@@ -27,7 +27,8 @@ export function AboutScroller({ children }: { children: React.ReactNode }) {
 
       const paint = (i: number) => {
         const color = cards[i]?.dataset.color
-        if (color && section) section.dataset.bg = color
+        // 원물 색을 그대로 깔면 화면이 무거워진다 — 종이색과 섞어 톤을 유지한다
+        if (color && section) section.dataset.bg = mixColor(resolveColor('paper'), color, 0.42)
         const season = cards[i]?.dataset.season
         scope.querySelectorAll<HTMLElement>('[data-season]').forEach((el) => {
           el.dataset.active = String(el.dataset.season === season)
@@ -41,6 +42,20 @@ export function AboutScroller({ children }: { children: React.ReactNode }) {
         }
         const distance = () => track.scrollWidth - window.innerWidth + 96
 
+        // 카드 중심을 rect로 매 프레임 읽으면 트랙 이동과 한 프레임 어긋나
+        // 심도 계산이 튄다. x=0 기준 중심을 캐시해두고 이동량만 더한다.
+        let base: number[] = []
+        const measure = () => {
+          const prev = Number(gsap.getProperty(track, 'x')) || 0
+          gsap.set(track, { x: 0 })
+          base = cards.map((c) => {
+            const r = c.getBoundingClientRect()
+            return r.left + r.width / 2
+          })
+          gsap.set(track, { x: prev })
+        }
+        measure()
+
         const tl = gsap.to(track, {
           x: () => -distance(),
           ease: 'none',
@@ -51,15 +66,16 @@ export function AboutScroller({ children }: { children: React.ReactNode }) {
             pin: true,
             scrub: 1,
             invalidateOnRefresh: true,
+            onRefresh: measure,
             onUpdate: (self) => {
               const i = Math.round(self.progress * (cards.length - 1))
               paint(i)
               const mid = window.innerWidth / 2
-              cards.forEach((c) => {
-                const r = c.getBoundingClientRect()
-                const d = Math.abs(r.left + r.width / 2 - mid) / mid
+              const x = -distance() * self.progress
+              cards.forEach((c, ci) => {
+                const d = Math.abs(base[ci] + x - mid) / mid
                 // 중앙 데드존 안에서는 완전히 선명하게 둔다
-                const k = Math.max(0, (d - 0.22) / 0.78)
+                const k = Math.min(1, Math.max(0, (d - 0.22) / 0.78))
                 gsap.set(c, {
                   filter: k > 0.02 ? `blur(${(k * 3).toFixed(2)}px)` : 'none',
                   opacity: 1 - k * 0.4,

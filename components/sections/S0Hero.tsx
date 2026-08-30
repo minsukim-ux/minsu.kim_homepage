@@ -14,7 +14,7 @@ export function S0Hero() {
         data-bg="paper"
         className="relative flex min-h-[100svh] flex-col justify-between overflow-hidden"
       >
-        <div data-hero-stage className="absolute inset-0">
+        <div data-hero-stage data-cursor="watch" className="absolute inset-0">
           <BackdropVideo
             landscape={VIDEO.hero16x9}
             portrait={VIDEO.hero9x16}

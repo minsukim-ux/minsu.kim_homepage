@@ -176,3 +176,85 @@
     background: var(--sb-terracotta);
   }
 }
+
+@layer components {
+  /* 커스텀 커서 — 네이티브 포커스 링은 유지한다 */
+  .sb-has-cursor,
+  .sb-has-cursor * {
+    cursor: none;
+  }
+  .sb-cursor-ring,
+  .sb-cursor-dot,
+  .sb-cursor-watch {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 60;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .sb-cursor-ring {
+    width: 40px;
+    height: 40px;
+    border: 1.5px solid var(--sb-terracotta);
+    border-radius: 999px;
+    transition: width 0.25s, height 0.25s, opacity 0.25s;
+  }
+  .sb-cursor-ring[data-hover='true'] {
+    width: 40px;
+    height: 40px;
+    background: rgba(194, 71, 47, 0.1);
+    transform-origin: center;
+    scale: 1.5;
+  }
+  .sb-cursor-dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--sb-terracotta);
+  }
+  .sb-cursor-watch {
+    width: 88px;
+    height: 88px;
+    color: var(--sb-ink);
+    opacity: 0;
+    transition: opacity 0.3s;
+    animation: sb-spin 9s linear infinite;
+  }
+  .sb-cursor-watch[data-on='true'] {
+    opacity: 1;
+  }
+  @keyframes sb-spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  /* 잉크 스포트라이트 — 페이지가 옅은 세피아로 빠지고 커서 반경만 원색 복원 */
+  .sb-ink-dim {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    pointer-events: none;
+    backdrop-filter: sepia(0.55) saturate(0.6) contrast(0.98);
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    -webkit-mask-image: radial-gradient(circle 220px at var(--sb-ink-x, 50%) var(--sb-ink-y, 50%), transparent 0 55%, #000 100%);
+    mask-image: radial-gradient(circle 220px at var(--sb-ink-x, 50%) var(--sb-ink-y, 50%), transparent 0 55%, #000 100%);
+  }
+  .sb-ink-dim[data-on='true'] {
+    opacity: 1;
+  }
+
+  /* 페이지 전환 — 하단에서 크림 종이가 올라와 덮는다 */
+  .sb-page-veil {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    background: var(--sb-cream);
+    transform: translateY(100%);
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+  }
+}

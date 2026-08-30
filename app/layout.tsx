@@ -3,6 +3,11 @@ import { Inter, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import { BRAND } from '@/lib/brand'
+import { Loader } from '@/components/experience/Loader'
+import { CursorLayer } from '@/components/experience/CursorLayer'
+import { SoundToggle } from '@/components/experience/SoundToggle'
+import { PageVeil } from '@/components/experience/PageVeil'
+import { Header } from '@/components/ui/Header'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
 const serif = Instrument_Serif({
@@ -44,7 +49,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           본문으로 건너뛰기
         </a>
+        <Loader />
+        <PageVeil />
+        <Header />
         <SmoothScroll>{children}</SmoothScroll>
+        <CursorLayer />
+        <SoundToggle />
       </body>
     </html>
   )
