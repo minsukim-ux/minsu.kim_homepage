@@ -1,3 +1,4 @@
+import { BgFlow } from '@/components/anim/BgFlow'
 import { S0Hero } from '@/components/sections/S0Hero'
 import { S1Statement } from '@/components/sections/S1Statement'
 import { S2About } from '@/components/sections/S2About'
@@ -12,6 +13,7 @@ import { S9Footer } from '@/components/sections/S9Footer'
 export default function Page() {
   return (
     <main id="main">
+      <BgFlow />
       <S0Hero />
       <S1Statement />
       <S2About />

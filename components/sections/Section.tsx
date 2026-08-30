@@ -12,7 +12,7 @@ export function Section({
   id: string
   label?: string
   title?: string
-  /** 섹션 배경색 (연속 보간의 앵커) */
+  /** 배경 토큰명 ('paper' | 'cream' | ...) — BgFlow가 연속 보간의 앵커로 읽는다 */
   bg?: string
   children?: ReactNode
   className?: string
@@ -21,9 +21,8 @@ export function Section({
     <section
       id={id}
       data-section={id}
-      data-bg={bg}
+      data-bg={bg ?? 'paper'}
       className={`relative w-full overflow-hidden px-6 py-28 md:px-12 md:py-40 ${className ?? ''}`}
-      style={bg ? { backgroundColor: bg } : undefined}
     >
       <PaperTexture opacity={0.35} />
       <div className="relative mx-auto w-full max-w-[1440px]">

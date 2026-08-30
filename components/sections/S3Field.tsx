@@ -9,7 +9,7 @@ export function S3Field() {
       id="field"
       label="Ingredient Field"
       title="재료 하나하나가 이 브랜드의 언어다"
-      bg="var(--sb-paper)"
+      bg="paper"
     >
       <ul className="flex flex-wrap gap-6">
         {INGREDIENTS.map((i, idx) => (

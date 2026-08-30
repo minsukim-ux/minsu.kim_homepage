@@ -4,7 +4,7 @@ import { Marquee } from '@/components/ui/Marquee'
 
 export function S8Channels() {
   return (
-    <Section id="channels" label="Channels" title="어디서 살 수 있나" bg="var(--sb-cream)">
+    <Section id="channels" label="Channels" title="어디서 살 수 있나" bg="cream">
       <Marquee items={CHANNELS.map((c) => c.nameKo)} />
       <Marquee items={CHANNELS.map((c) => c.nameKo)} reverse className="mt-4" />
       <p className="mt-8 text-[13px] text-fog">

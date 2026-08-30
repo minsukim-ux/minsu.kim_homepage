@@ -95,6 +95,12 @@
     text-transform: uppercase;
     mix-blend-mode: difference;
   }
+  /* 사진이 없는 일러스트 폴백에서는 difference가 흐려지므로 잉크색으로 찍는다 */
+  .sb-frame-label--dark {
+    color: var(--sb-ink);
+    opacity: 0.55;
+    mix-blend-mode: normal;
+  }
   .sb-frame-caption {
     margin-top: 14px;
     font-size: 13px;
@@ -140,5 +146,33 @@
     background:
       radial-gradient(120% 90% at 50% 40%, rgba(251, 248, 242, 0) 42%, rgba(251, 248, 242, 0.92) 78%),
       linear-gradient(to bottom, rgba(251, 248, 242, 0.55), rgba(251, 248, 242, 0) 30%);
+  }
+}
+
+@layer components {
+  /* 계절 진행 게이지 */
+  .sb-season {
+    position: relative;
+    padding-bottom: 8px;
+    transition: color 0.4s ease;
+  }
+  .sb-season::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 100%;
+    background: var(--sb-line);
+    transform: scaleX(0.25);
+    transform-origin: left;
+    transition: transform 0.5s ease, background-color 0.5s ease;
+  }
+  .sb-season[data-active='true'] {
+    color: var(--sb-ink);
+  }
+  .sb-season[data-active='true']::after {
+    transform: scaleX(1);
+    background: var(--sb-terracotta);
   }
 }

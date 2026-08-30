@@ -4,6 +4,7 @@ import { MAX_PHOTO_WIDTH } from '@/lib/assets'
 import { FilmGrain } from '@/components/graphics/textures'
 import { IngredientIcon } from '@/components/graphics/ingredients'
 import { INGREDIENT_BY_ID } from '@/lib/ingredients'
+import { luminance } from '@/lib/motion'
 
 type Props = {
   /** public 기준 경로. 파일이 없으면 SVG 일러스트 폴백 */
@@ -42,6 +43,12 @@ export function Framed({
   const h = Math.round(w / ratio)
   const present = hasAsset(src)
   const meta = fallbackIngredient ? INGREDIENT_BY_ID[fallbackIngredient] : undefined
+  // 밝은 원물은 크림 바탕에서 사라지므로 앰버 톤 바탕을 깔아 대비를 만든다
+  const fallbackGround = meta
+    ? luminance(meta.color) > 0.82
+      ? `radial-gradient(120% 90% at 50% 38%, var(--sb-amber), #E5C88F)`
+      : `radial-gradient(120% 90% at 50% 38%, ${meta.color}55, ${meta.shade}2E)`
+    : 'var(--sb-cream)'
 
   return (
     <figure
@@ -61,17 +68,21 @@ export function Framed({
         ) : (
           <div
             className="flex h-full w-full items-center justify-center"
-            style={{ background: meta ? `${meta.color}22` : 'var(--sb-cream)' }}
+            style={{ background: fallbackGround }}
             role="img"
             aria-label={alt}
           >
             {fallbackIngredient ? (
-              <IngredientIcon id={fallbackIngredient} size={Math.round(w * 0.42)} seed={w} />
+              <IngredientIcon id={fallbackIngredient} size={Math.round(w * 0.66)} seed={w} />
             ) : null}
           </div>
         )}
-        <FilmGrain />
-        {label ? <span className="sb-frame-label">{label}</span> : null}
+        {present ? <FilmGrain /> : null}
+        {label ? (
+          <span className={present ? 'sb-frame-label' : 'sb-frame-label sb-frame-label--dark'}>
+            {label}
+          </span>
+        ) : null}
       </div>
       {caption ? <figcaption className="sb-frame-caption">{caption}</figcaption> : null}
     </figure>

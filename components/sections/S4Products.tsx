@@ -7,7 +7,7 @@ const ORDER: ProductCategory[] = ['salad', 'wrap', 'noodle', 'side']
 
 export function S4Products() {
   return (
-    <Section id="products" label="Products" title="샐러드만 만들지 않는다" bg="var(--sb-cream)">
+    <Section id="products" label="Products" title="샐러드만 만들지 않는다" bg="cream">
       {ORDER.map((cat) => (
         <div key={cat} data-product-category={cat} className="mb-20">
           <h3 className="sb-label mb-6">{CATEGORY_LABEL[cat]}</h3>
