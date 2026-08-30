@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* 브랜드 앵커 — 변경 금지 */
+    --sb-primary: #00614e;
+    --sb-primary-dark: #004a3b;
+    --sb-primary-light: #007a62;
+    --sb-accent: #4caf82;
+
+    /* 따뜻한 에디토리얼 확장 */
+    --sb-paper: #fbf8f2;
+    --sb-cream: #f3ede1;
+    --sb-terracotta: #c2472f;
+    --sb-tomato: #e0523a;
+    --sb-amber: #e9a33b;
+    --sb-olive: #7c8b4e;
+    --sb-ink: #2a241e;
+    --sb-fog: #8a8175;
+    --sb-line: #ded5c6;
+
+    /* 섹션 배경 연속 보간용 (스크롤에서 GSAP이 갱신) */
+    --sb-bg: var(--sb-paper);
+
+    --font-sans: 'Pretendard Variable', Pretendard, var(--font-inter), -apple-system,
+      'Apple SD Gothic Neo', 'Malgun Gothic', system-ui, sans-serif;
+    /* TODO: Pretendard Variable 웹폰트 self-host (외부 CDN 링크 금지) */
+    --font-serif: var(--font-instrument), 'Playfair Display', Georgia, serif;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: var(--sb-bg);
+    color: var(--sb-ink);
+    font-family: var(--font-sans);
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color 0.6s linear;
+  }
+
+  ::selection {
+    background: var(--sb-amber);
+    color: var(--sb-ink);
+  }
+
+  /* 커스텀 커서가 있어도 네이티브 포커스 링을 지우지 않는다 */
+  :focus-visible {
+    outline: 2px solid var(--sb-primary);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .sb-hero-type {
+    font-size: clamp(2.8rem, 9vw, 8rem);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 0.95;
+  }
+
+  .sb-label {
+    font-family: var(--font-serif);
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    font-size: 12px;
+    color: var(--sb-fog);
+  }
+
+  .sb-serif {
+    font-family: var(--font-serif);
+  }
+
+  /* 종이 액자 — 저해상도 사진을 '의도된 인화물'로 만든다 */
+  .sb-frame {
+    background: #fffdf8;
+    padding: 22px 22px 16px;
+    box-shadow:
+      0 1px 0 var(--sb-line),
+      0 18px 40px -28px rgba(42, 36, 30, 0.5);
+  }
+  .sb-frame-label {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    color: #fff;
+    font-family: var(--font-serif);
+    letter-spacing: 0.25em;
+    font-size: 12px;
+    text-transform: uppercase;
+    mix-blend-mode: difference;
+  }
+  .sb-frame-caption {
+    margin-top: 14px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    color: var(--sb-fog);
+  }
+
+  /* 웜 듀오톤 — 톤 통일 + 색 노이즈 억제 */
+  .sb-duotone {
+    filter: sepia(0.12) saturate(1.05) contrast(1.03);
+  }
+
+  .sb-grain {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+  }
+
+  .sb-paper-tex {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='p'><feTurbulence type='fractalNoise' baseFrequency='0.035' numOctaves='4'/><feColorMatrix type='saturate' values='0'/></filter><rect width='220' height='220' filter='url(%23p)' opacity='0.28'/></svg>");
+    mix-blend-mode: multiply;
+  }
+
+  .sb-marquee {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+@layer components {
+  /* 히어로 종이 마스크 — 영상 가장자리를 크림 종이로 덮는다 */
+  .sb-hero-paper {
+    background:
+      radial-gradient(120% 90% at 50% 40%, rgba(251, 248, 242, 0) 42%, rgba(251, 248, 242, 0.92) 78%),
+      linear-gradient(to bottom, rgba(251, 248, 242, 0.55), rgba(251, 248, 242, 0) 30%);
+  }
+}
