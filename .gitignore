@@ -1,0 +1,18 @@
+node_modules/
+.next/
+out/
+build/
+dist/
+
+# 로컬 환경
+.env*.local
+.DS_Store
+*.log
+npm-debug.log*
+
+# 타입 산출물
+next-env.d.ts
+*.tsbuildinfo
+
+# 실제 에셋(용량 큰 원본)은 필요 시 여기서 관리 정책을 정한다.
+# 현재는 /public/assets 하위 플레이스홀더 구조만 커밋한다.
