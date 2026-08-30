@@ -21,7 +21,12 @@ export function S1Statement() {
               data-statement={i}
               className="max-w-[20ch] text-[clamp(2rem,6vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em]"
             >
-              <span data-words className="block">
+              <span className="sr-only">
+                {m.year ? `${m.year}년 ${m.month}월 ` : ''}
+                {m.place} {m.figure ?? ''}
+                {m.line}
+              </span>
+              <span data-words className="block" aria-hidden="true">
                 {m.year ? (
                   <span className="sb-serif mb-4 block text-[0.28em] tracking-[0.25em] text-fog">
                     {m.year}.{m.month} {m.place}

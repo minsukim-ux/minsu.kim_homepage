@@ -18,7 +18,7 @@
     --sb-amber: #e9a33b;
     --sb-olive: #7c8b4e;
     --sb-ink: #2a241e;
-    --sb-fog: #8a8175;
+    --sb-fog: #524b41; /* 배경이 가장 어두운 구간(랩 필드)에서도 4.5:1을 넘도록 */
     --sb-line: #ded5c6;
 
     /* Tailwind 투명도 수식(bg-ink/85 등)에 쓰이는 RGB 채널 값 */
@@ -31,7 +31,7 @@
     --sb-amber-rgb: 233 163 59;
     --sb-olive-rgb: 124 139 78;
     --sb-ink-rgb: 42 36 30;
-    --sb-fog-rgb: 138 129 117;
+    --sb-fog-rgb: 82 75 65;
     --sb-line-rgb: 222 213 198;
 
     /* 카테고리 필드 — 원색을 그대로 깔면 무거워지므로 종이색과 섞은 톤 */
@@ -124,7 +124,8 @@
     margin-top: 14px;
     font-size: 13px;
     letter-spacing: 0.02em;
-    color: var(--sb-fog);
+    /* 심도 연출로 카드 투명도가 내려가도 4.5:1을 넘도록 잉크 계열로 둔다 */
+    color: rgba(42, 36, 30, 0.88);
   }
 
   /* 웜 듀오톤 — 톤 통일 + 색 노이즈 억제 */

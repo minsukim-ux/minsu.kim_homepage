@@ -14,7 +14,7 @@ export function Marquee({
     <div className={`overflow-hidden ${className ?? ''}`} data-marquee={reverse ? 'reverse' : 'forward'}>
       <div className="sb-marquee gap-8 whitespace-nowrap">
         {row.map((it, i) => (
-          <span key={i} className="sb-label text-ink/70">
+          <span key={i} className="sb-label text-ink">
             {it}
           </span>
         ))}

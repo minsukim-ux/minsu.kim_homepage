@@ -32,7 +32,9 @@ export function FooterMark({ children }: { children: React.ReactNode }) {
         },
       )
 
-      const split = new SplitText(mark, { type: 'chars' })
+      // p에는 aria-label이 허용되지 않는다 — 조각은 숨기고 브랜드명은 헤더/저작권 줄에 남긴다
+      const split = new SplitText(mark, { type: 'chars', aria: 'none' })
+      mark.setAttribute('aria-hidden', 'true')
       gsap.to(split.chars, {
         y: () => gsap.utils.random(-260, 260),
         x: () => gsap.utils.random(-320, 320),

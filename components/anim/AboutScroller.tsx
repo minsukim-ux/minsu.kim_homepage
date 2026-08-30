@@ -78,7 +78,7 @@ export function AboutScroller({ children }: { children: React.ReactNode }) {
                 const k = Math.min(1, Math.max(0, (d - 0.22) / 0.78))
                 gsap.set(c, {
                   filter: k > 0.02 ? `blur(${(k * 3).toFixed(2)}px)` : 'none',
-                  opacity: 1 - k * 0.4,
+                  opacity: 1 - k * 0.25,
                 })
               })
             },

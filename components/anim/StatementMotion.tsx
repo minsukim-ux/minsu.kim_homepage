@@ -39,7 +39,14 @@ export function StatementMotion({ children }: { children: React.ReactNode }) {
         })
       }
 
-      const splits = items.map((el) => new SplitText(el.querySelector('[data-words]') as HTMLElement, { type: 'words' }))
+      const splits = items.map((el) => {
+        const target = el.querySelector('[data-words]') as HTMLElement
+        // span에는 aria-label이 허용되지 않는다. 분해된 조각은 숨기고
+        // 문장 전체는 sr-only 사본으로 읽히게 둔다.
+        const split = new SplitText(target, { type: 'words', aria: 'none' })
+        target.setAttribute('aria-hidden', 'true')
+        return split
+      })
       gsap.set(items, { autoAlpha: 0 })
 
       const tl = gsap.timeline({
