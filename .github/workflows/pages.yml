@@ -32,8 +32,12 @@ jobs:
         with:
           path: out
 
+  # Pages 배포는 기본 브랜치에서만 한다.
+  # github-pages 환경은 기본/보호 브랜치만 허용하므로 기능 브랜치에서는
+  # 잡이 시작도 못 하고 실패한다. 기능 브랜치에서는 build 잡이 검증만 담당.
   deploy:
     needs: build
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
