@@ -4,6 +4,12 @@
  * 외부 URL(Unsplash, placeholder 서비스, 이미지 CDN) 하드코딩 금지.
  */
 
+/** GitHub Pages 하위 경로 배포를 위해 모든 정적 경로에 basePath를 붙인다 */
+export const BASE_PATH = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+export const withBase = (p: string) => `${BASE_PATH}${p}`
+
+/** next/image는 basePath를 자동으로 붙이므로 매니페스트 경로에는 넣지 않는다.
+ *  raw <img>/<video>/new Image()에서만 withBase()로 감싼다. */
 export const ASSET_ROOT = '/assets'
 
 export type VideoSlot = 'hero16x9' | 'hero9x16' | 'loop1' | 'loop2' | 'loop3' | 'loop4' | 'film'

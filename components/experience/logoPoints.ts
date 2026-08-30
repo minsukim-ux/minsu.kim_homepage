@@ -1,4 +1,4 @@
-import { LOGO_SVG } from '@/lib/assets'
+import { LOGO_SVG, withBase } from '@/lib/assets'
 
 export type Pt = { x: number; y: number }
 
@@ -39,7 +39,7 @@ function drawLogo(ctx: CanvasRenderingContext2D, w: number, h: number): Promise<
       resolve(true)
     }
     img.onerror = () => resolve(false)
-    img.src = LOGO_SVG
+    img.src = withBase(LOGO_SVG)
   })
 }
 

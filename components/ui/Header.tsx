@@ -1,7 +1,7 @@
 'use client'
 
 import { useCallback, useState } from 'react'
-import { LOGO_SVG } from '@/lib/assets'
+import { LOGO_SVG, withBase } from '@/lib/assets'
 import { Wordmark } from '@/components/media/Wordmark'
 import { BRAND } from '@/lib/brand'
 
@@ -22,7 +22,7 @@ export function Header() {
           // eslint-disable-next-line @next/next/no-img-element
           <img
             ref={check}
-            src={LOGO_SVG}
+            src={withBase(LOGO_SVG)}
             alt=""
             className="h-8 w-auto"
             onError={() => setFailed(true)}

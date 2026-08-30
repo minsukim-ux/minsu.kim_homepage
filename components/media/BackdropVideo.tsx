@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { WarmGradient } from './WarmGradient'
+import { withBase } from '@/lib/assets'
 
 type Props = {
   landscape: { src: string; poster: string }
@@ -56,8 +57,8 @@ export function BackdropVideo({ landscape, portrait, className }: Props) {
         ref={videoRef}
         className={`${className ?? ''} absolute inset-0 transition-opacity duration-700`}
         style={{ opacity: ready ? 1 : 0 }}
-        poster={source.poster}
-        src={source.src}
+        poster={withBase(source.poster)}
+        src={withBase(source.src)}
         muted
         loop
         playsInline
