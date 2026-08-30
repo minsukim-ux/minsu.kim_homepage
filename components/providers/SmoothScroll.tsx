@@ -8,8 +8,10 @@ import { gsap, ScrollTrigger } from '@/lib/gsap'
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    // 저사양에서는 스무딩을 완화한다
+    const weak = (navigator.hardwareConcurrency ?? 8) <= 4
     const lenis = new Lenis({
-      lerp: reduce ? 1 : 0.11,
+      lerp: reduce ? 1 : weak ? 0.24 : 0.11,
       smoothWheel: !reduce,
       syncTouch: false,
     })

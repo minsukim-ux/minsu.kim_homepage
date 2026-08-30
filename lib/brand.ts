@@ -28,7 +28,7 @@ export const MILESTONES: Milestone[] = [
     month: '10',
     figure: '100,000',
     place: '서울대학교 연못 앞',
-    line: '10만원으로 시작했다.', // 확인필요 — 창업동아리 "10만원 프로젝트"
+    line: '원으로 시작했다.', // 확인필요 — 창업동아리 "10만원 프로젝트"
   },
   {
     year: '2015',
@@ -49,7 +49,7 @@ export const MILESTONES: Milestone[] = [
     month: '',
     figure: '20',
     place: '전국',
-    line: '지금 매장은 20여 개.', // 확인필요 — 정확한 매장 수 갱신 필요
+    line: '여 개 매장.', // 확인필요 — 정확한 매장 수 갱신 필요
   },
 ]
 

@@ -46,8 +46,10 @@ export function Framed({
   // 밝은 원물은 크림 바탕에서 사라지므로 앰버 톤 바탕을 깔아 대비를 만든다
   const fallbackGround = meta
     ? luminance(meta.color) > 0.82
-      ? `radial-gradient(120% 90% at 50% 38%, var(--sb-amber), #E5C88F)`
-      : `radial-gradient(120% 90% at 50% 38%, ${meta.color}55, ${meta.shade}2E)`
+      ? 'radial-gradient(120% 90% at 50% 38%, var(--sb-amber), #E5C88F)'
+      : luminance(meta.color) < 0.28
+        ? 'radial-gradient(120% 90% at 50% 38%, #F0DEBE, #E3CBA2)'
+        : `radial-gradient(120% 90% at 50% 38%, ${meta.color}55, ${meta.shade}2E)`
     : 'var(--sb-cream)'
 
   return (

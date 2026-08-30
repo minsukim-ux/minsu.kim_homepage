@@ -13,12 +13,13 @@ export function S1Statement() {
         <PaperTexture opacity={0.35} />
         <p className="sb-label absolute left-6 top-16 md:left-12">Since 2014</p>
 
-        <div className="relative mx-auto grid w-full max-w-[1440px] place-items-start">
+        {/* 기본은 세로 흐름 — 모션이 켜질 때만 겹쳐 쌓는다 (reduced-motion에서 가독성 유지) */}
+        <div data-statements className="relative mx-auto flex w-full max-w-[1440px] flex-col gap-16">
           {MILESTONES.map((m, i) => (
             <p
               key={i}
               data-statement={i}
-              className="col-start-1 row-start-1 max-w-[20ch] text-[clamp(2rem,6vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em]"
+              className="max-w-[20ch] text-[clamp(2rem,6vw,5rem)] font-bold leading-[1.02] tracking-[-0.035em]"
             >
               <span data-words className="block">
                 {m.year ? (
@@ -31,7 +32,7 @@ export function S1Statement() {
                   </span>
                 )}
                 {m.figure ? (
-                  <span className="relative mr-3 inline-block">
+                  <span className="relative inline-block">
                     <span data-countup={m.figure}>{m.figure}</span>
                     <HandUnderline
                       className="absolute -bottom-1 left-0 h-3 w-full text-terracotta"

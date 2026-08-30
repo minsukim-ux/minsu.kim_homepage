@@ -29,6 +29,16 @@ export function StatementMotion({ children }: { children: React.ReactNode }) {
         return
       }
 
+      // 모션이 켜진 경우에만 문장을 한 자리에 겹친다
+      const stack = scope.querySelector<HTMLElement>('[data-statements]')
+      if (stack) {
+        stack.style.display = 'grid'
+        stack.style.gap = '0'
+        items.forEach((el) => {
+          el.style.gridArea = '1 / 1'
+        })
+      }
+
       const splits = items.map((el) => new SplitText(el.querySelector('[data-words]') as HTMLElement, { type: 'words' }))
       gsap.set(items, { autoAlpha: 0 })
 

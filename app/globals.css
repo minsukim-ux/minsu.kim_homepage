@@ -21,6 +21,25 @@
     --sb-fog: #8a8175;
     --sb-line: #ded5c6;
 
+    /* Tailwind 투명도 수식(bg-ink/85 등)에 쓰이는 RGB 채널 값 */
+    --sb-primary-rgb: 0 97 78;
+    --sb-accent-rgb: 76 175 130;
+    --sb-paper-rgb: 251 248 242;
+    --sb-cream-rgb: 243 237 225;
+    --sb-terracotta-rgb: 194 71 47;
+    --sb-tomato-rgb: 224 82 58;
+    --sb-amber-rgb: 233 163 59;
+    --sb-olive-rgb: 124 139 78;
+    --sb-ink-rgb: 42 36 30;
+    --sb-fog-rgb: 138 129 117;
+    --sb-line-rgb: 222 213 198;
+
+    /* 카테고리 필드 — 원색을 그대로 깔면 무거워지므로 종이색과 섞은 톤 */
+    --sb-salad: #ced2b9;
+    --sb-wrap: #e7baae;
+    --sb-noodle: #f3ede1;
+    --sb-side: #f5dab2;
+
     /* 섹션 배경 연속 보간용 (스크롤에서 GSAP이 갱신) */
     --sb-bg: var(--sb-paper);
 
@@ -236,7 +255,7 @@
     inset: 0;
     z-index: 30;
     pointer-events: none;
-    backdrop-filter: sepia(0.55) saturate(0.6) contrast(0.98);
+    backdrop-filter: sepia(0.38) saturate(0.72) contrast(0.99);
     opacity: 0;
     transition: opacity 0.6s ease;
     -webkit-mask-image: radial-gradient(circle 220px at var(--sb-ink-x, 50%) var(--sb-ink-y, 50%), transparent 0 55%, #000 100%);

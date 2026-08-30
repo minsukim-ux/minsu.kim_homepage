@@ -5,19 +5,20 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        primary: 'var(--sb-primary)',
+        // 투명도 수식(bg-ink/85)을 쓰려면 채널 값 + <alpha-value> 형태여야 한다
+        primary: 'rgb(var(--sb-primary-rgb) / <alpha-value>)',
         'primary-dark': 'var(--sb-primary-dark)',
         'primary-light': 'var(--sb-primary-light)',
-        accent: 'var(--sb-accent)',
-        paper: 'var(--sb-paper)',
-        cream: 'var(--sb-cream)',
-        terracotta: 'var(--sb-terracotta)',
-        tomato: 'var(--sb-tomato)',
-        amber: 'var(--sb-amber)',
-        olive: 'var(--sb-olive)',
-        ink: 'var(--sb-ink)',
-        fog: 'var(--sb-fog)',
-        line: 'var(--sb-line)',
+        accent: 'rgb(var(--sb-accent-rgb) / <alpha-value>)',
+        paper: 'rgb(var(--sb-paper-rgb) / <alpha-value>)',
+        cream: 'rgb(var(--sb-cream-rgb) / <alpha-value>)',
+        terracotta: 'rgb(var(--sb-terracotta-rgb) / <alpha-value>)',
+        tomato: 'rgb(var(--sb-tomato-rgb) / <alpha-value>)',
+        amber: 'rgb(var(--sb-amber-rgb) / <alpha-value>)',
+        olive: 'rgb(var(--sb-olive-rgb) / <alpha-value>)',
+        ink: 'rgb(var(--sb-ink-rgb) / <alpha-value>)',
+        fog: 'rgb(var(--sb-fog-rgb) / <alpha-value>)',
+        line: 'rgb(var(--sb-line-rgb) / <alpha-value>)',
       },
       fontFamily: {
         sans: ['var(--font-sans)'],

@@ -1,9 +1,10 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { INGREDIENTS } from '@/lib/ingredients'
 import { IngredientIcon } from '@/components/graphics/ingredients'
 import { prefersReduced } from '@/lib/motion'
+import { useLiteMode } from '@/lib/useLiteMode'
 import { useIngredientTrail } from './useIngredientTrail'
 
 /**
@@ -20,18 +21,21 @@ export function CursorLayer() {
   const pool = useRef<HTMLDivElement>(null)
   const stage = useRef<HTMLDivElement>(null)
 
+  const lite = useLiteMode()
+  const [fine, setFine] = useState(false)
   const trail = useIngredientTrail(stage, pool)
 
   useEffect(() => {
     if (typeof window === 'undefined') return
-    const fine = window.matchMedia('(pointer: fine)').matches
+    const hasFinePointer = window.matchMedia('(pointer: fine)').matches
+    setFine(hasFinePointer)
     const reduce = prefersReduced()
 
-    if (!fine) {
+    if (!hasFinePointer) {
       // 모바일: 탭 지점에서 재료가 터져 나오며 낙하
       const onTap = (e: TouchEvent) => {
         const t = e.changedTouches[0]
-        if (!t || reduce) return
+        if (!t || reduce || lite) return
         for (let i = 0; i < 5; i++) trail.spawn(t.clientX, t.clientY, true)
       }
       window.addEventListener('touchstart', onTap, { passive: true })
@@ -55,7 +59,8 @@ export function CursorLayer() {
       const isWatch = !!el?.closest('[data-cursor="watch"]')
       if (watch.current) watch.current.dataset.on = String(isWatch)
       if (ring.current) ring.current.dataset.hover = String(!!link)
-      if (!reduce && Math.random() < 0.12) trail.spawn(x, y)
+      // Lite 모드에서는 물리 트레일을 끈다
+      if (!reduce && !lite && Math.random() < 0.12) trail.spawn(x, y)
     }
 
     const loop = () => {
@@ -84,16 +89,17 @@ export function CursorLayer() {
       window.removeEventListener('pointermove', onMove)
       cancelAnimationFrame(raf)
     }
-  }, [trail])
+  }, [trail, lite])
 
   return (
     <>
       {/* 물리 트레일이 그려지는 레이어 */}
       <div ref={stage} aria-hidden className="pointer-events-none fixed inset-0 z-[45] overflow-hidden" />
 
-      <div ref={ring} aria-hidden className="sb-cursor-ring" />
-      <div ref={dot} aria-hidden className="sb-cursor-dot" />
-      <div ref={watch} aria-hidden className="sb-cursor-watch" data-on="false">
+      {/* 포인터가 없는 기기에서는 커서를 아예 만들지 않는다 */}
+      <div ref={ring} aria-hidden className="sb-cursor-ring" hidden={!fine} />
+      <div ref={dot} aria-hidden className="sb-cursor-dot" hidden={!fine} />
+      <div ref={watch} aria-hidden className="sb-cursor-watch" data-on="false" hidden={!fine}>
         <svg viewBox="0 0 88 88">
           <defs>
             <path id="sb-watch-path" d="M44 8a36 36 0 1 1 0 72 36 36 0 1 1 0-72" fill="none" />

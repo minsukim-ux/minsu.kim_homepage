@@ -29,8 +29,8 @@ export function InkSpotlight({ targetId }: { targetId: string }) {
 
     const st = ScrollTrigger.create({
       trigger: target,
-      start: 'top 60%',
-      end: 'bottom 40%',
+      start: 'top 40%',
+      end: 'bottom 70%',
       onToggle: (self) => {
         el.dataset.on = String(self.isActive)
       },
